@@ -1,0 +1,16 @@
+.btn {
+	background-color: #007bff;
+	display: flex;
+	flex-direction: column;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 16px;
+	margin: 10px auto;
+}
+
+.btn:hover {
+	background-color: #0056b3;
+}
