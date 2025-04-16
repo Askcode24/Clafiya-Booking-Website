@@ -33,6 +33,7 @@ function BookingForm() {
 					'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages'
 				);
 				const data = await response.json();
+				console.log('Packages:', data); // Debugging
 				setPackages(data); // Assuming the API returns an array of packages
 			} catch (error) {
 				console.error('Error fetching packages:', error);
@@ -45,6 +46,7 @@ function BookingForm() {
 					'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests'
 				);
 				const data = await response.json();
+				console.log('Tests:', data); // Debugging
 				setTests(data); // Assuming the API returns an array of tests
 			} catch (error) {
 				console.error('Error fetching tests:', error);
@@ -56,7 +58,11 @@ function BookingForm() {
 	}, []);
 
 	const handleChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		try {
+			setFormData({ ...formData, [e.target.name]: e.target.value });
+		} catch (error) {
+			console.error('Error updating form data:', error);
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -123,8 +129,22 @@ function BookingForm() {
 				<label htmlFor='appointment_data'>
 					<strong>Appointment Data</strong>
 				</label>
-				<input type='date' name='date' onChange={handleChange} required />
-				<input type='time' name='time' onChange={handleChange} required />
+				<label htmlFor='date'>Appointment Date</label>
+				<input
+					className='date_time'
+					type='date'
+					name='date'
+					onChange={handleChange}
+					required
+				/>
+				<label htmlFor='time'>Appointment Time</label>
+				<input
+					className='date_time'
+					type='time'
+					name='time'
+					onChange={handleChange}
+					required
+				/>
 				<input
 					type='text'
 					name='address'
@@ -176,20 +196,33 @@ function BookingForm() {
 					onChange={handleChange}
 					required>
 					<option value=''>Select a package</option>
-					{packages.map((pkg) => (
-						<option key={pkg.id} value={pkg.type}>
-							{pkg.type}
-						</option>
-					))}
+					{packages.length > 0 ? (
+						packages.map((pkg) => (
+							<option key={pkg.id} value={pkg.type}>
+								{pkg.type}
+							</option>
+						))
+					) : (
+						<option disabled>Loading packages...</option>
+					)}
 				</select>
 				<label htmlFor='test_type'>Test Type</label>
 				<select className='select' name='test_type' onChange={handleChange}>
 					<option value=''>Select a test</option>
-					{tests.map((test) => (
-						<option key={test.id} value={test.type}>
-							{test.type}
+					{tests.length > 0 ? (
+						tests.map((test) => (
+							<option key={test.id} value={test.type || test.name}>
+								{test.type || test.name}
+							</option>
+						))
+					) : (
+						<option disabled>Loading tests...</option>
+					)}
+					{/* {tests.map((test) => (
+						<option key={test.id} value={test.type || test.name}>
+							{test.type || test.name}
 						</option>
-					))}
+					))} */}
 				</select>
 				<label htmlFor='pickup_type'>Delivery Type</label>
 				<select className='select' name='pickup_type' onChange={handleChange}>

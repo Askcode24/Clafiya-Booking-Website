@@ -108,6 +108,10 @@ label {
 	label {
 		font-size: 0.9rem;
 	}
+	.date_time {
+		width: 100%;
+		margin: 0;
+	}
 }
 @media (max-width: 480px) {
 	.container {
