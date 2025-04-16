@@ -131,83 +131,90 @@ function BookingForm() {
 		}
 	};
 	return (
-		<form className='booking-form' onSubmit={handleSubmit}>
-			<label htmlFor='appointment_data'>
-				<strong>Appointment Data</strong>
-			</label>
-			<input type='date' name='date' onChange={handleChange} required />
-			<input type='time' name='time' onChange={handleChange} required />
-			<input
-				type='text'
-				name='address'
-				placeholder='Address'
-				onChange={handleChange}
-				required
-			/>
-			<select
-				className='select'
-				name='payment_method'
-				onChange={handleChange}
-				required>
-				<option value='hsa'>HSA</option>
-				<option value='credit_card'>Credit Card</option>
-				<option value='paypal'>PayPal</option>
-			</select>
-			<input
-				type='text'
-				name='first_name'
-				placeholder='First Name'
-				onChange={handleChange}
-				required
-			/>
-			<input
-				type='text'
-				name='last_name'
-				placeholder='Last Name'
-				onChange={handleChange}
-				required
-			/>
-			<input
-				type='email'
-				name='email'
-				placeholder='Email'
-				onChange={handleChange}
-				required
-			/>
-			<input
-				type='tel'
-				name='phone_number'
-				placeholder='Phone Number'
-				onChange={handleChange}
-				required
-			/>
-			<label htmlFor='test'>Packages Type</label>
-			<select
-				className='select'
-				name='packages_type'
-				onChange={handleChange}
-				required>
-				<option value='Check up'>Check up</option>
-				<option value='Diagnostics'>Diagnostics</option>
-				<option value='Blood Test'>Blood Test</option>
-				<option value='Therapy'>Therapy</option>
-				<option value='Autospy'>Autospy</option>
-			</select>
-			<label htmlFor='test_type'>Test Type</label>
-			<select className='select' name='test_type' onChange={handleChange}>
-				<option value='Blood Type'>Blood Type</option>
-				<option value='Pregnancy Test'>Pregnancy Test</option>
-				<option value='DNA Test'>DNA Test</option>
-				<option value='HIV/AIDS Test'>HIV/AIDS Test</option>
-			</select>
-			<label htmlFor='pickup_type'>Delivery Type</label>
-			<select className='select' name='pickup_type' onChange={handleChange}>
-				<option value='Pickup'>Pickup</option>
-				<option value='Delivery'>Delivery</option>
-				<option value='Walking'>Walking</option>
-			</select>
-			<button type='submit'>Proceed to Booking</button>
-		</form>
+		<>
+			<h2>Clafiya Booking Webpage</h2>
+			<h3>Welcome to Clafiya Consultation.</h3>
+			<h4>
+				Book a consultation with a doctor and manage your appointments easily.
+			</h4>
+			<form className='booking-form' onSubmit={handleSubmit}>
+				<label htmlFor='appointment_data'>
+					<strong>Appointment Data</strong>
+				</label>
+				<input type='date' name='date' onChange={handleChange} required />
+				<input type='time' name='time' onChange={handleChange} required />
+				<input
+					type='text'
+					name='address'
+					placeholder='Address'
+					onChange={handleChange}
+					required
+				/>
+				<select
+					className='select'
+					name='payment_method'
+					onChange={handleChange}
+					required>
+					<option value='hsa'>HSA</option>
+					<option value='credit_card'>Credit Card</option>
+					<option value='paypal'>PayPal</option>
+				</select>
+				<input
+					type='text'
+					name='first_name'
+					placeholder='First Name'
+					onChange={handleChange}
+					required
+				/>
+				<input
+					type='text'
+					name='last_name'
+					placeholder='Last Name'
+					onChange={handleChange}
+					required
+				/>
+				<input
+					type='email'
+					name='email'
+					placeholder='Email'
+					onChange={handleChange}
+					required
+				/>
+				<input
+					type='tel'
+					name='phone_number'
+					placeholder='Phone Number'
+					onChange={handleChange}
+					required
+				/>
+				<label htmlFor='packages_type'>Packages Type</label>
+				<select
+					className='select'
+					name='packages_type'
+					onChange={handleChange}
+					required>
+					<option value='Check up'>Check up</option>
+					<option value='Diagnostics'>Diagnostics</option>
+					<option value='Blood Test'>Blood Test</option>
+					<option value='Therapy'>Therapy</option>
+					<option value='Autospy'>Autospy</option>
+				</select>
+				<label htmlFor='test_type'>Test Type</label>
+				<select className='select' name='test_type' onChange={handleChange}>
+					<option value='Blood Type'>Blood Type</option>
+					<option value='Pregnancy Test'>Pregnancy Test</option>
+					<option value='DNA Test'>DNA Test</option>
+					<option value='HIV/AIDS Test'>HIV/AIDS Test</option>
+				</select>
+				<label htmlFor='pickup_type'>Delivery Type</label>
+				<select className='select' name='pickup_type' onChange={handleChange}>
+					<option value='Pickup'>Pickup</option>
+					<option value='Delivery'>Delivery</option>
+					<option value='Walking'>Walking</option>
+				</select>
+				<button type='submit'>Proceed to Booking</button>
+			</form>
+		</>
 	);
 }
 

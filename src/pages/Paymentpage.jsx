@@ -22,6 +22,9 @@ function PaymentPage() {
 	const [useEmbeddedForm, setUseEmbeddedForm] = useState(false);
 	const [paymentAccount, setPaymentAccount] = useState(null);
 	const totalAmount = formData.packages_price + formData.test_price;
+	const packagesPrice = formData.packages_price;
+	const testPrice = formData.test_price;
+	const testType = formData.test_type;
 
 	useEffect(() => {
 		async function fetchPaymentAccount() {
@@ -69,7 +72,7 @@ function PaymentPage() {
 			{formData && (
 				<div>
 					<p>
-						<strong>Amount:</strong> #{totalAmount}
+						<strong>Amount:</strong> <strong>#{totalAmount}</strong>
 					</p>
 					<h3>User Details</h3>
 					<p>
@@ -82,12 +85,6 @@ function PaymentPage() {
 						<strong>Phone:</strong> {formData.phone_number}
 					</p>
 					<p>
-						<strong>Packages Type:</strong> {formData.packages_type}
-					</p>
-					<p>
-						<strong>Test Type:</strong> {formData.test_type}
-					</p>
-					<p>
 						<strong>Delivery Type:</strong> {formData.pickup_type}
 					</p>
 					<button className='btn' onClick={() => navigate('/')}>
@@ -95,21 +92,23 @@ function PaymentPage() {
 					</button>
 				</div>
 			)}
-			{paymentAccount && <p>Payment Account: {paymentAccount.account_id}</p>}
-			<button
-				className='btn'
-				onClick={() => setUseEmbeddedForm(!useEmbeddedForm)}>
-				{useEmbeddedForm ? 'Use Stripe Checkout' : 'Use Embedded Form'}
-			</button>
-			{useEmbeddedForm ? (
-				<Elements stripe={stripePromise}>
-					<EmbeddedPaymentForm formData={formData} navigate={navigate} />
-				</Elements>
-			) : (
-				<button className='btn' onClick={handleCheckoutRedirect}>
-					Pay with Stripe Checkout
+			<div className='buttons'>
+				{paymentAccount && <p>Payment Account: {paymentAccount.account_id}</p>}
+				<button
+					className='btn'
+					onClick={() => setUseEmbeddedForm(!useEmbeddedForm)}>
+					Use Embedded Form
 				</button>
-			)}
+				{useEmbeddedForm ? (
+					<Elements stripe={stripePromise}>
+						<EmbeddedPaymentForm formData={formData} navigate={navigate} />
+					</Elements>
+				) : (
+					<button className='btn' onClick={handleCheckoutRedirect}>
+						Pay with Stripe Checkout
+					</button>
+				)}
+			</div>
 		</div>
 	);
 }
