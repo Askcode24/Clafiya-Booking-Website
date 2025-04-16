@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BookingForm.css';
 
@@ -11,7 +11,6 @@ function BookingForm() {
 		last_name: '',
 		email: '',
 		phone_number: '',
-		// appointment_type: '',
 		payment_method: 'hsa',
 		packages_type: '',
 		pickup_type: '',
@@ -22,65 +21,47 @@ function BookingForm() {
 		test_price: 0,
 	});
 
+	const [packages, setPackages] = useState([]);
+	const [tests, setTests] = useState([]);
 	const navigate = useNavigate();
+
+	// Fetch packages and tests from the API
+	useEffect(() => {
+		const fetchPackages = async () => {
+			try {
+				const response = await fetch(
+					'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages'
+				);
+				const data = await response.json();
+				setPackages(data); // Assuming the API returns an array of packages
+			} catch (error) {
+				console.error('Error fetching packages:', error);
+			}
+		};
+
+		const fetchTests = async () => {
+			try {
+				const response = await fetch(
+					'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests'
+				);
+				const data = await response.json();
+				setTests(data); // Assuming the API returns an array of tests
+			} catch (error) {
+				console.error('Error fetching tests:', error);
+			}
+		};
+
+		fetchPackages();
+		fetchTests();
+	}, []);
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-		if (e.target.name === 'packages_type') {
-			// Update package price based on selected package type
-			switch (e.target.value) {
-				case 'Check up':
-					setFormData({ ...formData, packages_price: 50000 });
-					break;
-				case 'Diagnostics':
-					setFormData({ ...formData, packages_price: 20000 });
-					break;
-				case 'Blood Test':
-					setFormData({ ...formData, packages_price: 10000 });
-					break;
-				case 'Therapy':
-					setFormData({ ...formData, packages_price: 100000 });
-					break;
-				case 'Autospy':
-					setFormData({ ...formData, packages_price: 150000 });
-					break;
-				// Add more cases for other package types
-				default:
-					break;
-			}
-		} else if (e.target.name === 'test_type') {
-			// Update test price based on selected test type
-			switch (e.target.value) {
-				case 'Blood Type':
-					setFormData({ ...formData, test_price: 10000 });
-					break;
-				case 'Pregnancy Test':
-					setFormData({ ...formData, test_price: 10000 });
-					break;
-				case 'DNA Test':
-					setFormData({ ...formData, test_price: 95000 });
-					break;
-				case 'HIV/AIDS Test':
-					setFormData({ ...formData, test_price: 30000 });
-					break;
-
-				// Add more cases for other test types
-				default:
-					break;
-			}
-		}
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// const packagesPrice = getPackagePrice(formData.packages_type);
-		// const testPrice = getTestPrice(formData.test_type);
-		// const totalAmount = packagesPrice + testPrice;
-
 		const totalAmount = formData.packages_price + formData.test_price;
-		/* navigate('/payment', { state: { formData, totalAmount } }); */
-
-		navigate('/payment', { state: { formData, totalAmount } });
 
 		const payload = {
 			date: formData.date,
@@ -130,6 +111,7 @@ function BookingForm() {
 			alert('Failed to book appointment');
 		}
 	};
+
 	return (
 		<>
 			<h2>Clafiya Booking Webpage</h2>
@@ -193,18 +175,21 @@ function BookingForm() {
 					name='packages_type'
 					onChange={handleChange}
 					required>
-					<option value='Check up'>Check up</option>
-					<option value='Diagnostics'>Diagnostics</option>
-					<option value='Blood Test'>Blood Test</option>
-					<option value='Therapy'>Therapy</option>
-					<option value='Autospy'>Autospy</option>
+					<option value=''>Select a package</option>
+					{packages.map((pkg) => (
+						<option key={pkg.id} value={pkg.type}>
+							{pkg.type}
+						</option>
+					))}
 				</select>
 				<label htmlFor='test_type'>Test Type</label>
 				<select className='select' name='test_type' onChange={handleChange}>
-					<option value='Blood Type'>Blood Type</option>
-					<option value='Pregnancy Test'>Pregnancy Test</option>
-					<option value='DNA Test'>DNA Test</option>
-					<option value='HIV/AIDS Test'>HIV/AIDS Test</option>
+					<option value=''>Select a test</option>
+					{tests.map((test) => (
+						<option key={test.id} value={test.type}>
+							{test.type}
+						</option>
+					))}
 				</select>
 				<label htmlFor='pickup_type'>Delivery Type</label>
 				<select className='select' name='pickup_type' onChange={handleChange}>
