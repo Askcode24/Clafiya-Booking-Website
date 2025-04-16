@@ -9,7 +9,6 @@ import './styles/button.css';
 function App() {
 	return (
 		<div className='container'>
-			<h2>Clafiya Booking Webpage</h2>
 			<Routes>
 				<Route path='/' element={<BookingForm />} />
 				<Route path='/confirmation' element={<ConfirmationPage />} />
