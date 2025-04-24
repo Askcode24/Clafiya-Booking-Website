@@ -11,8 +11,8 @@ function App() {
 		<div className='container'>
 			<Routes>
 				<Route path='/' element={<BookingForm />} />
-				<Route path='/confirmation' element={<ConfirmationPage />} />
 				<Route path='/payment' element={<PaymentPage />} />
+				<Route path='/confirmation' element={<ConfirmationPage />} />
 				<Route path='/payment-success' element={<PaymentSuccessPage />} />
 			</Routes>
 		</div>

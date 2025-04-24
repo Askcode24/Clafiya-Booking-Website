@@ -22,55 +22,8 @@ function BookingForm() {
 	});
 
 	const [packages, setPackages] = useState([]);
-	const [tests, setTests] = useState([]);
 	const navigate = useNavigate();
 	// Fetch packages and tests from the API
-	useEffect(() => {
-		const fetchPackages = async () => {
-			const url =
-				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages';
-			const options = {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
-				},
-			};
-
-			try {
-				const response = await fetch(url, options);
-				const packages = await response.json();
-				console.log('Packages:', packages); // Debugging
-				setPackages(packages); // Assuming the API returns an array of test
-			} catch (error) {
-				console.error('Error fetching tests:', error);
-			}
-		};
-
-		const fetchTests = async () => {
-			const url =
-				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests';
-			const options = {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
-				},
-			};
-
-			try {
-				const response = await fetch(url, options);
-				const tests = await response.json();
-				console.log('Tests:', tests); // Debugging
-				setTests(tests); // Assuming the API returns an array of tests
-			} catch (error) {
-				console.error('Error fetching tests:', error);
-			}
-		};
-
-		fetchPackages();
-		fetchTests();
-	}, []);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -109,8 +62,20 @@ function BookingForm() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		// const packagesPrice = getPackagePrice(formData.packages_type);
+		// const testPrice = getTestPrice(formData.test_type);
+		// const totalAmount = packagesPrice + testPrice;
+
 		const totalAmount = formData.packages_price + formData.test_price;
-		navigate('/payment', { state: { totalAmount } });
+		/* navigate('/payment', { state: { formData, totalAmount } }); */
+		console.log('Form Data:', formData);
+		console.log('Total Amount:', totalAmount);
+		navigate('/payment', { state: { formData, totalAmount } });
+		console.log('Rendering BookingForm component with state:', {
+			formData,
+			packages,
+			tests,
+		});
 		const payload = {
 			date: formData.date,
 			time: formData.time,
@@ -159,6 +124,54 @@ function BookingForm() {
 			alert('Failed to book appointment');
 		}
 	};
+	const [tests, setTests] = useState([]);
+	// Fetch packages and tests from the API
+	useEffect(() => {
+		const fetchPackages = async () => {
+			const url =
+				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages';
+			const options = {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
+				},
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const data = await response.json();
+				console.log('Packages:', data.data); // Debugging
+				setPackages(data.data); // Assuming the API returns an array of test
+			} catch (error) {
+				console.error('Error fetching tests:', error);
+			}
+		};
+
+		const fetchTests = async () => {
+			const url =
+				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests';
+			const options = {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
+				},
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const data = await response.json();
+				console.log('Tests:', data.data); // Debugging
+				setTests(data.data); // Assuming the API returns an array of tests
+			} catch (error) {
+				console.error('Error fetching tests:', error);
+			}
+		};
+
+		fetchPackages();
+		fetchTests();
+	}, []);
 
 	return (
 		<>
@@ -167,6 +180,7 @@ function BookingForm() {
 			<h4>
 				Book a consultation with a doctor and manage your appointments easily.
 			</h4>
+
 			<form className='booking-form' onSubmit={handleSubmit}>
 				<label htmlFor='appointment_data'>
 					<h2>
@@ -234,53 +248,45 @@ function BookingForm() {
 					required
 				/>
 				<label htmlFor='packages_type'>Packages Type</label>
-				<select
-					className='select'
-					name='packages_type'
-					onChange={handleChange}
-					required>
+				<select className='select' name='packages_type' onChange={handleChange}>
 					<option value=''>Select a package</option>
 					{packages.length > 0 ? (
-						packages.map((pkg) => (
-							<option key={pkg.id} value={pkg.name}>
-								{pkg.name} - ${pkg.price}
-							</option>
-						))
+						(() => {
+							const options = [];
+							for (let i = 0; i < packages.length; i++) {
+								const pkg = packages[i];
+								options.push(
+									<option key={pkg.id} value={pkg.name}>
+										{pkg.name} - ${pkg.price}
+									</option>
+								);
+							}
+							return options;
+						})()
 					) : (
 						<option disabled>Loading packages...</option>
 					)}
-					{/* {packages.map((pkg) => {
-						const { name, price, id, description } = pkg;
-						console.log(pkg); // Debugging
-						<option key={id} value={name}>
-							{name} - ${price}
-						</option>;
-					})} */}
 				</select>
 
 				<label htmlFor='test_type'>Test Type</label>
-				<select
-					className='select'
-					name='test_type'
-					onChange={handleChange}
-					required>
+				<select className='select' name='test_type' onChange={handleChange}>
 					<option value=''>Select a test</option>
 					{tests.length > 0 ? (
-						tests.map((test) => (
-							<option key={test.name}>
-								{test.name} - ${test.price}
-							</option>
-						))
+						(() => {
+							const options = [];
+							for (let i = 0; i < tests.length; i++) {
+								const test = tests[i];
+								options.push(
+									<option key={test.id} value={test.name}>
+										{test.name} - ${test.price}
+									</option>
+								);
+							}
+							return options;
+						})()
 					) : (
 						<option disabled>Loading tests...</option>
 					)}
-
-					{/* {tests.map((test) => {
-						const { name, price, id, description } = test;
-						<option key={id} value={name}>
-							{name} - ${price}
-						</option>;
-					})} */}
 				</select>
 				<label htmlFor='pickup_type'>Delivery Type</label>
 				<select className='select' name='pickup_type' onChange={handleChange}>

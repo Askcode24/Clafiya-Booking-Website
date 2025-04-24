@@ -21,7 +21,7 @@ function PaymentPage() {
 	const formData = location.state?.formData;
 	const [useEmbeddedForm, setUseEmbeddedForm] = useState(false);
 	const [paymentAccount, setPaymentAccount] = useState(null);
-	const totalAmount = formData.packages_price + formData.test_price;
+	const { totalAmount } = location.state || {};
 	const packagesPrice = formData.packages_price;
 	const testPrice = formData.test_price;
 	const testType = formData.test_type;
@@ -83,6 +83,12 @@ function PaymentPage() {
 					</p>
 					<p>
 						<strong>Phone:</strong> {formData.phone_number}
+					</p>
+					<p>
+						<strong>Packages Type:</strong> {formData.packages_type}
+					</p>
+					<p>
+						<strong>Test Type:</strong> {formData.test_type}
 					</p>
 					<p>
 						<strong>Delivery Type:</strong> {formData.pickup_type}
