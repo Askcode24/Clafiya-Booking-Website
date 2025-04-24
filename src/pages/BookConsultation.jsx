@@ -39,9 +39,9 @@ function BookingForm() {
 
 			try {
 				const response = await fetch(url, options);
-				const data = await response.json();
-				console.log('Packages:', data); // Debugging
-				setPackages(data); // Assuming the API returns an array of test
+				const packages = await response.json();
+				console.log('Packages:', packages); // Debugging
+				setPackages(packages); // Assuming the API returns an array of test
 			} catch (error) {
 				console.error('Error fetching tests:', error);
 			}
@@ -60,9 +60,9 @@ function BookingForm() {
 
 			try {
 				const response = await fetch(url, options);
-				const data = await response.json();
-				console.log('Tests:', data); // Debugging
-				setTests(data); // Assuming the API returns an array of tests
+				const tests = await response.json();
+				console.log('Tests:', tests); // Debugging
+				setTests(tests); // Assuming the API returns an array of tests
 			} catch (error) {
 				console.error('Error fetching tests:', error);
 			}
@@ -249,6 +249,13 @@ function BookingForm() {
 					) : (
 						<option disabled>Loading packages...</option>
 					)}
+					{/* {packages.map((pkg) => {
+						const { name, price, id, description } = pkg;
+						console.log(pkg); // Debugging
+						<option key={id} value={name}>
+							{name} - ${price}
+						</option>;
+					})} */}
 				</select>
 
 				<label htmlFor='test_type'>Test Type</label>
@@ -267,6 +274,13 @@ function BookingForm() {
 					) : (
 						<option disabled>Loading tests...</option>
 					)}
+
+					{/* {tests.map((test) => {
+						const { name, price, id, description } = test;
+						<option key={id} value={name}>
+							{name} - ${price}
+						</option>;
+					})} */}
 				</select>
 				<label htmlFor='pickup_type'>Delivery Type</label>
 				<select className='select' name='pickup_type' onChange={handleChange}>

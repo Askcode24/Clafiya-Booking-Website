@@ -135,3 +135,16 @@ label {
 		font-size: 0.8rem;
 	}
 }
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background: #1a152c;
+	}
+	.container {
+		background-color: #1a152c;
+	}
+	h2 {
+		background: #272769;
+		color: #ddd;
+	}
+}

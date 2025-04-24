@@ -4,7 +4,7 @@
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
-	box-shadow: 0px 0px 10px 3px #333;
+	box-shadow: 0px 0px 10px 3px rgb(51, 51, 51, 0.2);
 	background: linear-gradient(to left, #4facfe, #00febe);
 	/* margin: 50px auto; */
 }
@@ -40,4 +40,28 @@
 
 .booking-form select {
 	border: 2px solid #ddd;
+	width: 100%;
+	margin-inline: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.booking-form {
+		background: #1a152c;
+		color: #ddd;
+		box-shadow: 0px 20px 30px 20px rgb(0, 0, 0, 0.1);
+	}
+	.booking-form select {
+		background: #333;
+		color: #ddd;
+	}
+	.booking-form input {
+		background: #333;
+		color: #ddd;
+	}
+	.booking-form button {
+		background-color: #272769;
+	}
+	.booking-form button:hover {
+		background-color: #4444ad;
+	}
 }
