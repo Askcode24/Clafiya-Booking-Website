@@ -37,14 +37,13 @@ function PaymentSuccessPage() {
 			<h2>Apointment Confirmed with Clafiya Consultation!</h2>
 			<p className='success-message'>
 				<strong>
-					Your appointment has been successfully confirmed. We will contact you
-					shortly with further details.
-				</strong>{' '}
-				<br />
-				<strong>
 					{greeting}, {formData.first_name} {formData.last_name}! We appreciate
 					your trust in our services.
 				</strong>
+				<br/>
+				<strong>
+					Your appointment booked by {formData.time}, on {formData.date} has been successfully confirmed. We will contact you shortly with further details.
+				</strong>{' '}
 			</p>
 			<button className='btn' onClick={() => navigate('/')}>
 				Go Back to Booking
