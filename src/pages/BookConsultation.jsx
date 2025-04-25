@@ -113,8 +113,13 @@ function BookingForm() {
 				error = 'The date field must be a date after or equal to today.';
 			}
 		} else if (name === 'time') {
-			if (!value) {
-				error = 'Time is required.';
+			const currentDate = new Date();
+			const selectedDate = new Date(`${formData.date}T${value}`);
+			// Check if the selected date is today
+			const today = new Date().toISOString().split('T')[0];
+			if (formData.date === today && selectedDate < currentDate) {
+				error =
+					'The time must be equal to or after the current time if the date is today.';
 			}
 		} else if (name === 'address') {
 			if (value.trim() === '') {
