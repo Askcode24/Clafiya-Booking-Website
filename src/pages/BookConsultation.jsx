@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './BookingForm.css';
 
 function BookingForm() {
+	// Initialize formData with data from location.state if available
 	const [formData, setFormData] = useState({
 		date: '',
 		time: '',
@@ -22,8 +23,54 @@ function BookingForm() {
 	});
 
 	const [packages, setPackages] = useState([]);
+	const [tests, setTests] = useState([]);
 	const navigate = useNavigate();
-	// Fetch packages and tests from the API
+	const [errors, setErrors] = useState({});
+	// Fetch packages and tests
+	useEffect(() => {
+		const fetchPackages = async () => {
+			const url =
+				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages';
+			const options = {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
+				},
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const data = await response.json();
+				setPackages(data.data);
+			} catch (error) {
+				console.error('Error fetching packages:', error);
+			}
+		};
+
+		const fetchTests = async () => {
+			const url =
+				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests';
+			const options = {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
+				},
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const data = await response.json();
+				setTests(data.data);
+			} catch (error) {
+				console.error('Error fetching tests:', error);
+			}
+		};
+
+		fetchPackages();
+		fetchTests();
+	}, []);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -58,246 +105,245 @@ function BookingForm() {
 		} catch (error) {
 			console.error('Error updating form data:', error);
 		}
-	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		// const packagesPrice = getPackagePrice(formData.packages_type);
-		// const testPrice = getTestPrice(formData.test_type);
-		// const totalAmount = packagesPrice + testPrice;
-
-		const totalAmount = formData.packages_price + formData.test_price;
-		/* navigate('/payment', { state: { formData, totalAmount } }); */
-		console.log('Form Data:', formData);
-		console.log('Total Amount:', totalAmount);
-		navigate('/payment', { state: { formData, totalAmount } });
-		console.log('Rendering BookingForm component with state:', {
-			formData,
-			packages,
-			tests,
-		});
-		const payload = {
-			date: formData.date,
-			time: formData.time,
-			address: formData.address,
-			customer_id: 0,
-			payment_method: formData.payment_method,
-			customer: {
-				first_name: formData.first_name,
-				last_name: formData.last_name,
-				email: formData.email,
-				phone_number: formData.phone_number,
-			},
-			packages: [
-				{
-					packages_price: formData.packages_price,
-					packages_type: formData.packages_type,
-					pickup_type: formData.pickup_type,
-				},
-			],
-			tests: [
-				{
-					test_id: formData.test_id,
-					test_type: formData.test_type,
-					pickup_type: formData.pickup_type,
-				},
-			],
-		};
-
-		try {
-			const response = await fetch(
-				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Accept: 'application/json',
-					},
-					body: JSON.stringify(payload),
-				}
-			);
-			const data = await response.json();
-			console.log(data);
-			alert('Appointment booked successfully!');
-		} catch (error) {
-			console.error(error);
-			alert('Failed to book appointment');
+		let error = '';
+		if (name === 'date') {
+			const today = new Date().toISOString().split('T')[0];
+			if (value < today) {
+				error = 'The date field must be a date after or equal to today.';
+			}
+		} else if (name === 'time') {
+			if (!value) {
+				error = 'Time is required.';
+			}
+		} else if (name === 'address') {
+			if (value.trim() === '') {
+				error = 'Address is required.';
+			}
+		} else if (name === 'first_name') {
+			if (value.trim() === '') {
+				error = 'First name is required.';
+			}
+		} else if (name === 'last_name') {
+			if (value.trim() === '') {
+				error = 'Last name is required.';
+			}
+		} else if (name === 'email') {
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!emailRegex.test(value)) {
+				error = 'Please enter a valid email address.';
+			}
+		} else if (name === 'phone_number') {
+			const phoneRegex = /^[0-9]{10,15}$/;
+			if (!phoneRegex.test(value)) {
+				error = 'Please enter a valid phone number.';
+			}
+		} else if (name === 'packages_type') {
+			if (value === '') {
+				error = 'Package type is required.';
+			}
+		} else if (name === 'test_type') {
+			if (value === '') {
+				error = 'Test type is required.';
+			}
+		} else if (name === 'pickup_type') {
+			if (value === '') {
+				error = 'Pickup type is required.';
+			}
+		} else if (name === 'payment_method') {
+			if (value === '') {
+				error = 'Payment method is required.';
+			}
 		}
+
+		// Update the errors state
+		setErrors((prevErrors) => ({
+			...prevErrors,
+			[name]: error,
+		}));
 	};
-	const [tests, setTests] = useState([]);
-	// Fetch packages and tests from the API
-	useEffect(() => {
-		const fetchPackages = async () => {
-			const url =
-				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages';
-			const options = {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
-				},
-			};
 
-			try {
-				const response = await fetch(url, options);
-				const data = await response.json();
-				console.log('Packages:', data.data); // Debugging
-				setPackages(data.data); // Assuming the API returns an array of test
-			} catch (error) {
-				console.error('Error fetching tests:', error);
-			}
-		};
-
-		const fetchTests = async () => {
-			const url =
-				'https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/tests';
-			const options = {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer CLAF_tsk_86f8e37ea7764a7e0cd4c2cb94cb94e0`,
-				},
-			};
-
-			try {
-				const response = await fetch(url, options);
-				const data = await response.json();
-				console.log('Tests:', data.data); // Debugging
-				setTests(data.data); // Assuming the API returns an array of tests
-			} catch (error) {
-				console.error('Error fetching tests:', error);
-			}
-		};
-
-		fetchPackages();
-		fetchTests();
-	}, []);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const totalAmount = formData.packages_price + formData.test_price;
+		navigate('/payment', { state: { formData, totalAmount } });
+	};
 
 	return (
 		<>
-			<h2>Clafiya Booking Webpage</h2>
-			<h3>Welcome to Clafiya Consultation.</h3>
-			<h4>
-				Book a consultation with a doctor and manage your appointments easily.
-			</h4>
+			{formData && (
+				<div>
+					<h2>Clafiya Booking Webpage</h2>
+					<h3>Welcome to Clafiya Consultation.</h3>
+					<h4>
+						Book a consultation with a doctor and manage your appointments
+						easily.
+					</h4>
 
-			<form className='booking-form' onSubmit={handleSubmit}>
-				<label htmlFor='appointment_data'>
-					<h2>
-						<strong>Appointment Data</strong>
-					</h2>
-				</label>
-				<label htmlFor='date'>Appointment Date</label>
-				<input
-					className='date_time'
-					type='date'
-					name='date'
-					onChange={handleChange}
-					required
-				/>
-				<label htmlFor='time'>Appointment Time</label>
-				<input
-					className='date_time'
-					type='time'
-					name='time'
-					onChange={handleChange}
-					required
-				/>
-				<input
-					type='text'
-					name='address'
-					placeholder='Address'
-					onChange={handleChange}
-					required
-				/>
-				<select
-					className='select'
-					name='payment_method'
-					onChange={handleChange}
-					required>
-					<option value='hsa'>HSA</option>
-					<option value='credit_card'>Credit Card</option>
-					<option value='paypal'>PayPal</option>
-				</select>
-				<input
-					type='text'
-					name='first_name'
-					placeholder='First Name'
-					onChange={handleChange}
-					required
-				/>
-				<input
-					type='text'
-					name='last_name'
-					placeholder='Last Name'
-					onChange={handleChange}
-					required
-				/>
-				<input
-					type='email'
-					name='email'
-					placeholder='Email'
-					onChange={handleChange}
-					required
-				/>
-				<input
-					type='tel'
-					name='phone_number'
-					placeholder='Phone Number'
-					onChange={handleChange}
-					required
-				/>
-				<label htmlFor='packages_type'>Packages Type</label>
-				<select className='select' name='packages_type' onChange={handleChange}>
-					<option value=''>Select a package</option>
-					{packages.length > 0 ? (
-						(() => {
-							const options = [];
-							for (let i = 0; i < packages.length; i++) {
-								const pkg = packages[i];
-								options.push(
-									<option key={pkg.id} value={pkg.name}>
-										{pkg.name} - ${pkg.price}
-									</option>
-								);
-							}
-							return options;
-						})()
-					) : (
-						<option disabled>Loading packages...</option>
-					)}
-				</select>
+					<form className='booking-form' onSubmit={handleSubmit}>
+						<label htmlFor='date'>Appointment Date</label>
+						<input
+							className='date_time'
+							type='date'
+							name='date'
+							value={formData.date}
+							onChange={handleChange}
+							required
+						/>
+						{errors.date && <p className='error'>{errors.date}</p>}
 
-				<label htmlFor='test_type'>Test Type</label>
-				<select className='select' name='test_type' onChange={handleChange}>
-					<option value=''>Select a test</option>
-					{tests.length > 0 ? (
-						(() => {
-							const options = [];
-							for (let i = 0; i < tests.length; i++) {
-								const test = tests[i];
-								options.push(
-									<option key={test.id} value={test.name}>
-										{test.name} - ${test.price}
-									</option>
-								);
-							}
-							return options;
-						})()
-					) : (
-						<option disabled>Loading tests...</option>
-					)}
-				</select>
-				<label htmlFor='pickup_type'>Delivery Type</label>
-				<select className='select' name='pickup_type' onChange={handleChange}>
-					<option value='Pickup'>Pickup</option>
-					<option value='Delivery'>Delivery</option>
-					<option value='Walking'>Walking</option>
-				</select>
-				<button type='submit'>Proceed to Booking</button>
-			</form>
+						<label htmlFor='time'>Appointment Time</label>
+						<input
+							className='date_time'
+							type='time'
+							name='time'
+							value={formData.time}
+							onChange={handleChange}
+							required
+						/>
+						{errors.time && <p className='error'>{errors.time}</p>}
+
+						<label htmlFor='address'>Address</label>
+						<input
+							type='text'
+							name='address'
+							placeholder='Address'
+							value={formData.address}
+							onChange={handleChange}
+							required
+						/>
+						{errors.address && <p className='error'>{errors.address}</p>}
+
+						<label htmlFor='payment_method'>Payment Method</label>
+						<select
+							className='select'
+							name='payment_method'
+							value={formData.payment_method}
+							onChange={handleChange}
+							required>
+							<option value=''>Select a payment method</option>
+							<option value='hsa'>HSA</option>
+							<option value='external'>External</option>
+						</select>
+						{errors.payment_method && (
+							<p className='error'>{errors.payment_method}</p>
+						)}
+
+						<label htmlFor='first_name'>First Name</label>
+						<input
+							type='text'
+							name='first_name'
+							placeholder='First Name'
+							value={formData.first_name}
+							onChange={handleChange}
+							required
+						/>
+						{errors.first_name && <p className='error'>{errors.first_name}</p>}
+
+						<label htmlFor='last_name'>Last Name</label>
+						<input
+							type='text'
+							name='last_name'
+							placeholder='Last Name'
+							value={formData.last_name}
+							onChange={handleChange}
+							required
+						/>
+						{errors.last_name && <p className='error'>{errors.last_name}</p>}
+
+						<label htmlFor='email'>Email</label>
+						<input
+							type='email'
+							name='email'
+							placeholder='Email'
+							value={formData.email}
+							onChange={handleChange}
+							required
+						/>
+						{errors.email && <p className='error'>{errors.email}</p>}
+
+						<label htmlFor='phone_number'>Phone Number</label>
+						<input
+							type='tel'
+							name='phone_number'
+							placeholder='Phone Number'
+							value={formData.phone_number}
+							onChange={handleChange}
+							required
+						/>
+						{errors.phone_number && (
+							<p className='error'>{errors.phone_number}</p>
+						)}
+
+						<label htmlFor='packages_type'>Packages Type</label>
+						<select
+							className='select'
+							name='packages_type'
+							value={formData.packages_type}
+							onChange={handleChange}
+							required>
+							<option value=''>Select a package</option>
+							{packages.map((pkg) => (
+								<option key={pkg.id} value={pkg.name}>
+									{pkg.name} - ₦{pkg.price}
+								</option>
+							))}
+						</select>
+						{errors.packages_type && (
+							<p className='error'>{errors.packages_type}</p>
+						)}
+
+						<label htmlFor='test_type'>Test Type</label>
+						<select
+							className='select'
+							name='test_type'
+							value={formData.test_type}
+							onChange={handleChange}
+							required>
+							<option value=''>Select a test</option>
+							{tests.map((test) => (
+								<option key={test.id} value={test.name}>
+									{test.name} - ₦{test.price}
+								</option>
+							))}
+						</select>
+						{errors.test_type && <p className='error'>{errors.test_type}</p>}
+
+						<label htmlFor='pickup_type'>Pickup Type</label>
+						<select
+							className='select'
+							name='pickup_type'
+							value={formData.pickup_type}
+							onChange={handleChange}
+							required>
+							<option value='pickup'>Pickup</option>
+							<option value='delivery'>Delivery</option>
+							<option value='walkin'>Walking</option>
+						</select>
+						{errors.pickup_type && (
+							<p className='error'>{errors.pickup_type}</p>
+						)}
+
+						<button type='submit'>Proceed to Booking</button>
+					</form>
+					<div>
+						<h3>Summary</h3>
+						<p>
+							<strong>Package Price:</strong> ₦{formData.packages_price || 0}
+						</p>
+						<p>
+							<strong>Test Price:</strong> ₦{formData.test_price || 0}
+						</p>
+						<p>
+							<strong>Total Price:</strong> ₦
+							{(formData.packages_price || 0) + (formData.test_price || 0)}
+						</p>
+					</div>
+				</div>
+			)}
 		</>
 	);
 }
 
 export default BookingForm;
+// API URL for packages: https://integration-staging.clafiya.com/api/v1/consultations/diagnostics/packages
