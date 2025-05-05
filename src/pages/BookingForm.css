@@ -1,12 +1,10 @@
 .booking-form {
-	/* border: 2px solid #e6e3e39f; */
 	border-radius: 30px;
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
 	box-shadow: 0px 0px 10px 3px rgb(51, 51, 51, 0.2);
 	background: linear-gradient(to left, #4facfe, #00febe);
-	/* margin: 50px auto; */
 }
 
 .booking-form input {
@@ -14,7 +12,7 @@
 	padding: 10px;
 	border: 2px solid #ddd;
 	border-radius: 9px;
-	font-size: 16px;
+	font-size: clamp(0.8rem, 2.5vw, 1rem);
 }
 
 .booking-form button {
@@ -22,11 +20,10 @@
 	color: white;
 	border: none;
 	padding: 12px;
-	/* width: 50%; */
 	margin-inline: 50px;
 	border-radius: 20px;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: clamp(0.8rem, 2.5vw, 1rem);
 	transition: background 0.3s;
 }
 
@@ -42,6 +39,195 @@
 	border: 2px solid #ddd;
 	width: 100%;
 	margin-inline: 0;
+	padding: 10px;
+	font-size: clamp(0.8rem, 2.5vw, 1rem);
+}
+
+.error {
+	color: red;
+	font-size: clamp(0.6rem, 2vw, 0.9rem);
+	margin-top: 5px;
+}
+
+@media (max-width: 1728px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 25px;
+	}
+}
+
+@media (max-width: 1440px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 20px;
+	}
+}
+
+@media (max-width: 1280px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 18px;
+	}
+}
+
+@media (max-width: 1024px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 15px;
+	}
+	.booking-form input {
+		padding: 10px;
+	}
+	.booking-form button {
+		padding: 12px;
+		margin-inline: 20px;
+	}
+}
+
+@media (max-width: 900px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 12px;
+	}
+}
+
+@media (max-width: 768px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 10px;
+	}
+	.booking-form input {
+		padding: 8px;
+	}
+	.booking-form button {
+		padding: 10px;
+		margin-inline: 10px;
+	}
+}
+
+@media (max-width: 600px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 8px;
+	}
+	.booking-form input {
+		padding: 5px;
+	}
+	.booking-form button {
+		padding: 10px;
+		margin-inline: 5px;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 6px;
+	}
+	.booking-form input {
+		padding: 8px;
+	}
+	.booking-form button {
+		padding: 10px;
+		margin-inline: 3px;
+	}
+}
+
+@media (max-width: 360px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 4px;
+	}
+	.booking-form input {
+		padding: 3px;
+	}
+	.booking-form button {
+		padding: 6px;
+		margin-inline: 2px;
+	}
+}
+
+@media (max-width: 320px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 3px;
+	}
+	.booking-form input {
+		padding: 2px;
+	}
+	.booking-form button {
+		padding: 5px;
+		margin-inline: 1px;
+	}
+}
+
+@media (max-width: 240px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 2px;
+	}
+	.booking-form input {
+		padding: 1px;
+	}
+	.booking-form button {
+		padding: 4px;
+		margin-inline: 0px;
+	}
+}
+
+@media (max-width: 162px) {
+	body {
+		overflow-x: hidden;
+	}
+	.booking-form {
+		padding: 1px;
+	}
+	.booking-form input {
+		padding: 4px;
+		font-size: 0.6rem;
+	}
+	.booking-form button {
+		padding: 4px;
+		margin-inline: 0px;
+		font-size: 0.6rem;
+		margin-left: 9px;
+		width: 90%;
+	}
+	.booking-form select {
+		padding: 3px;
+		font-size: 0.6rem;
+	}
+	.booking-form label {
+		font-size: 0.6rem;
+	}
+	.error {
+		font-size: 0.5rem;
+	}
+	p {
+		font-size: 0.7rem;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,10 +250,4 @@
 	.booking-form button:hover {
 		background-color: #4444ad;
 	}
-}
-
-.error {
-	color: red;
-	font-size: 0.9rem;
-	margin-top: 5px;
 }

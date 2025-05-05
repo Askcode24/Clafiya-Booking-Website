@@ -90,79 +90,126 @@ label {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* Style for the success message */
 .success-message {
-	font-size: 1.2rem; /* Slightly larger font size */
-	color: #d6cbcb; /* Green color for success */
-	background-color: #1a1733; /* Light green background */
-	border-radius: 8px; /* Rounded corners */
-	padding: 15px 20px; /* Add padding for spacing */
-	margin: 20px 0; /* Add margin for spacing */
-	text-align: center; /* Center-align the text */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-	font-family: 'Arial', sans-serif; /* Use a clean font */
-	line-height: 1.5; /* Improve readability */
+	font-size: 1.2rem;
+	color: #d6cbcb;
+	background-color: #1a1733;
+	border-radius: 8px;
+	padding: 15px 20px;
+	margin: 20px 0;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	font-family: 'Arial', sans-serif;
+	line-height: 1.5;
+}
+
+@media (max-width: 1728px) {
+	.container {
+		width: 90%;
+		margin: 40px auto;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 1440px) {
+	.container {
+		width: 85%;
+		margin: 30px auto;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 1280px) {
+	.container {
+		width: 80%;
+		margin: 20px auto;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 1024px) {
+	.container {
+		width: 95%;
+		margin: 15px auto;
+	}
+	.card {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 900px) {
+	.container {
+		width: 90%;
+		margin: 10px auto;
+	}
+	h2 {
+		font-size: 1.2rem;
+	}
+	option {
+		font-size: 0.5rem;
+	}
 }
 
 @media (max-width: 768px) {
 	.container {
-		width: 110%;
-		margin: 0;
-		margin-right: 0;
+		width: 95%;
+		margin: 5px auto;
 		padding: 10px;
-	}
-	.form-heading {
-		font-size: 1.5rem;
-	}
-	body {
-		width: 97%;
-	}
-	.card {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		padding: 15px;
-	}
-	label {
-		font-size: 0.9rem;
-	}
-
-	h2 {
-		font-size: 1rem;
-	}
-
-	h4,
-	h3 {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		font-size: 1rem;
-	}
-
-	p .success-message {
-		font-size: 0.5rem;
-	}
-	/* .date_time {
-			width: 93%;
-			margin: 0;
-		} */
-}
-@media (max-width: 480px) {
-	.container {
-		width: 100%;
-		margin: 0;
-		margin-right: 20px;
-		padding: 5px;
-	}
-	.form-heading {
-		font-size: 1.2rem;
 	}
 	.card {
 		margin-top: 10px;
 		margin-bottom: 10px;
 		padding: 10px;
 	}
+	label {
+		font-size: 0.9rem;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		padding: 5px;
+	}
 	h2 {
 		font-size: 1rem;
 	}
+	.card {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		padding: 5px;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
 
+@media (max-width: 480px) {
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		padding: 5px;
+	}
+	label {
+		font-size: 0.8rem;
+	}
+	.success-message {
+		font-size: 0.9rem;
+	}
 	.success-container {
 		margin: 130px auto;
 		padding: 20px;
@@ -171,11 +218,76 @@ label {
 		margin: 190px auto;
 		padding: 0;
 	}
-	.success-message {
-		font-size: 1rem;
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.container {
+		padding: 5px;
+	}
+	h2 {
+		font-size: 0.9rem;
 	}
 	label {
+		font-size: 0.7rem;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 320px) {
+	.container {
+		padding: 3px;
+	}
+	h2 {
 		font-size: 0.8rem;
+	}
+	label {
+		font-size: 0.6rem;
+	}
+	.success-message {
+		font-size: 0.8rem;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 240px) {
+	.container {
+		padding: 2px;
+	}
+	h2 {
+		font-size: 0.7rem;
+	}
+	label {
+		font-size: 0.5rem;
+	}
+	option {
+		font-size: 0.5rem;
+	}
+}
+
+@media (max-width: 162px) {
+	h3,
+	h4 {
+		font-size: 0.7rem;
+		padding-bottom: 10px;
+	}
+	.container {
+		padding: 1px;
+	}
+	h2 {
+		font-size: 0.6rem;
+	}
+	label {
+		font-size: 0.4rem;
+	}
+	option {
+		font-size: 0.5rem;
 	}
 }
 

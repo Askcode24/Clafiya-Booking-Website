@@ -288,11 +288,15 @@ function BookingForm() {
 							onChange={handleChange}
 							required>
 							<option value=''>Select a package</option>
-							{packages.map((pkg) => (
-								<option key={pkg.id} value={pkg.name}>
-									{pkg.name} - ₦{pkg.price}
-								</option>
-							))}
+							{packages.length > 0 ? (
+								packages.map((pkg) => (
+									<option key={pkg.id} value={pkg.name}>
+										{pkg.name} - ₦{pkg.price}
+									</option>
+								))
+							) : (
+								<option disabled>Loading packages...</option>
+							)}
 						</select>
 						{errors.packages_type && (
 							<p className='error'>{errors.packages_type}</p>
@@ -306,11 +310,15 @@ function BookingForm() {
 							onChange={handleChange}
 							required>
 							<option value=''>Select a test</option>
-							{tests.map((test) => (
-								<option key={test.id} value={test.name}>
-									{test.name} - ₦{test.price}
-								</option>
-							))}
+							{tests.length > 0 ? (
+								tests.map((test) => (
+									<option key={test.id} value={test.name}>
+										{test.name} - ₦{test.price}
+									</option>
+								))
+							) : (
+								<option disabled>Loading test...</option>
+							)}
 						</select>
 						{errors.test_type && <p className='error'>{errors.test_type}</p>}
 
