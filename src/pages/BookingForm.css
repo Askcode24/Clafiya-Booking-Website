@@ -157,7 +157,10 @@
 		padding: 4px;
 	}
 	.booking-form input {
-		padding: 3px;
+		padding: 5px;
+	}
+	.booking-form select {
+		padding: 5px;
 	}
 	.booking-form button {
 		padding: 6px;
