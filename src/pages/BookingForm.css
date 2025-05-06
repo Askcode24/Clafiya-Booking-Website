@@ -13,6 +13,13 @@
 	border: 2px solid #ddd;
 	border-radius: 9px;
 	font-size: clamp(0.8rem, 2.5vw, 1rem);
+	appearance: none; /* remove browser styles */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.booking-form input::placeholder {
+	color: #888;
 }
 
 .booking-form button {
@@ -40,6 +47,9 @@
 	width: 100%;
 	margin-inline: 0;
 	padding: 10px;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 	/* font-size: clamp(0.7rem, 2.5vw, 0.8rem); */
 }
 
