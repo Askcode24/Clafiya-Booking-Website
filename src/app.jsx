@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { Analytics } from '@vercel/analytics/next';
 import BookingForm from './pages/BookConsultation';
 import PaymentPage from './pages/Paymentpage';
 import PaymentSuccessPage from './pages/PaymentSucesspage';
@@ -14,7 +13,6 @@ function App() {
 				<Route path='/payment' element={<PaymentPage />} />
 				<Route path='/payment-success' element={<PaymentSuccessPage />} />
 			</Routes>
-			<Analytics />
 		</div>
 	);
 }
