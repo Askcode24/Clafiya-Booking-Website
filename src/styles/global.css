@@ -90,6 +90,20 @@ label {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/* Style for the success message */
+.success-message {
+	font-size: 1.2rem; /* Slightly larger font size */
+	color: #d6cbcb; /* Green color for success */
+	background-color: #1a1733; /* Light green background */
+	border-radius: 8px; /* Rounded corners */
+	padding: 15px 20px; /* Add padding for spacing */
+	margin: 20px 0; /* Add margin for spacing */
+	text-align: center; /* Center-align the text */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+	font-family: 'Arial', sans-serif; /* Use a clean font */
+	line-height: 1.5; /* Improve readability */
+}
+
 .success-message {
 	font-size: 1.2rem;
 	color: #d6cbcb;
@@ -145,6 +159,10 @@ label {
 	option {
 		font-size: 1rem;
 	}
+	/* .date_time {
+			width: 93%;
+			margin: 0;
+		} */
 }
 
 @media (max-width: 900px) {
@@ -170,6 +188,21 @@ label {
 		margin-top: 10px;
 		margin-bottom: 10px;
 		padding: 10px;
+	}
+	h2 {
+		font-size: 1rem;
+	}
+
+	.success-container {
+		margin: 130px auto;
+		padding: 20px;
+	}
+	.error_success {
+		margin: 190px auto;
+		padding: 0;
+	}
+	.success-message {
+		font-size: 1rem;
 	}
 	label {
 		font-size: 0.9rem;
